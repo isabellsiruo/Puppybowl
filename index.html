@@ -1,37 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Puppy Bowl</title>
-    <link rel="stylesheet" href="styles.css" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puppy Bowl!</title>
+    <link rel="stylesheet" href="styles.css">
     <script defer src="script.js"></script>
-  </head>
-  <body>
+</head>
+<body>
+
     <h1>Puppy Bowl!</h1>
 
     <!-- Puppy Form -->
     <form id="puppy-form">
-      <label>
-        Puppy Name
-        <input type="text" id="puppy-name" required />
-      </label>
-      <label>
-        Puppy Breed
-        <input type="text" id="puppy-breed" required />
-      </label>
-      <label>
-        Puppy Image URL
-        <input type="text" id="puppy-image" placeholder="Paste image URL" required />
-      </label>
-      <button type="submit">Add Puppy</button>
+        <input type="text" id="puppy-name" placeholder="Puppy Name" required>
+        <input type="text" id="puppy-breed" placeholder="Puppy Breed" required>
+        <input type="url" id="puppy-image" placeholder="Paste image URL">
+        <button type="submit">Add Puppy</button>
     </form>
 
     <!-- Puppy List -->
     <ul id="puppy-list"></ul>
 
-    <!-- Puppy Details Section (Hidden by Default) -->
+    <!-- Puppy Details Popup -->
     <div id="puppy-detail-container" class="hidden"></div>
 
-  </body>
+</body>
 </html>

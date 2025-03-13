@@ -1,46 +1,148 @@
+/* General Page Styling */
 body {
   font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
-ul {
-list-style: none;
-padding-left: 0;
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-grid-auto-rows: auto;
-gap: 1ch;
+/* Puppy Bowl Header */
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 20px;
 }
 
-li {
-border: 1px solid black;
-padding: 1rem;
-background: #fff;
-border-radius: 8px;
-text-align: center;
-box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-overflow-y: auto;
+/* Puppy Form Styling */
+#puppy-form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.puppy-image {
-max-width: 100%;
-height: auto;
-border-radius: 8px;
-margin-bottom: 10px;
+#puppy-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-button {
-margin: 5px;
-padding: 5px;
-cursor: pointer;
+#puppy-form button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.remove-button {
-background-color: red;
-color: white;
-border: none;
-padding: 5px 10px;
+#puppy-form button:hover {
+  background-color: #218838;
 }
 
-.hidden {
-display: none;
+/* Puppy Card Grid */
+#puppy-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ensures responsiveness */
+  gap: 20px;
+  max-width: 1200px; /* Keeps cards from stretching too much */
+  margin: 0 auto; /* Centers the grid */
+  padding: 20px;
 }
+
+/* Individual Puppy Card */
+.puppy-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Puppy Image */
+.puppy-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Buttons in Puppy Card */
+.puppy-card button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.puppy-card button:first-of-type {
+  background-color: #ddd;
+}
+
+.puppy-card button:first-of-type:hover {
+  background-color: #ccc;
+}
+
+.puppy-card .remove-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.puppy-card .remove-button:hover {
+  background-color: #c82333;
+}
+
+/* Puppy Details Modal */
+#puppy-detail-container {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  text-align: center;
+}
+
+/* Overlay for Modal */
+#overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+}
+
+/* Close Button */
+#puppy-detail-container button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#puppy-detail-container button:hover {
+  background-color: #c82333;
+}
+
+
+
+
+
+
