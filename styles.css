@@ -1,5 +1,46 @@
-*{
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+body {
+  font-family: Arial, sans-serif;
+}
+
+ul {
+list-style: none;
+padding-left: 0;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+grid-auto-rows: auto;
+gap: 1ch;
+}
+
+li {
+border: 1px solid black;
+padding: 1rem;
+background: #fff;
+border-radius: 8px;
+text-align: center;
+box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+overflow-y: auto;
+}
+
+.puppy-image {
+max-width: 100%;
+height: auto;
+border-radius: 8px;
+margin-bottom: 10px;
+}
+
+button {
+margin: 5px;
+padding: 5px;
+cursor: pointer;
+}
+
+.remove-button {
+background-color: red;
+color: white;
+border: none;
+padding: 5px 10px;
+}
+
+.hidden {
+display: none;
 }
