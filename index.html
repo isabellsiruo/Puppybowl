@@ -11,19 +11,25 @@
 
     <h1>Puppy Bowl!</h1>
 
-    <!-- Puppy form -->
-    <form id="puppy-form">
-        <input type="text" id="puppy-name" placeholder="Puppy Name" required>
-        <input type="text" id="puppy-breed" placeholder="Puppy Breed" required>
-        <input type="url" id="puppy-image" placeholder="Paste image URL">
-        <button type="submit">Add Puppy</button>
-    </form>
+    <!-- Pup form -->
+    <div id="puppy-form-container">
+        <form id="puppy-form">
+            <input type="text" id="puppy-name" placeholder="Puppy Name" required>
+            <input type="text" id="puppy-breed" placeholder="Puppy Breed" required>
+            <input type="url" id="puppy-image" placeholder="Paste image URL">
+            <button type="submit">Add Puppy</button>
+        </form>
+        <p id="debug-message" style="color: gray; font-size: 12px;">add pup to list</p>
+    </div>
 
-    <!-- Puppy list -->
-    <ul id="puppy-list"></ul>
+    <!-- Pup Llist -->
+    <div id="puppy-list-container">
+        <ul id="puppy-list"></ul>
+    </div>
 
-    <!-- Puppy details pop-up -->
+    <!-- Pup details pop-up -->
     <div id="puppy-detail-container" class="hidden"></div>
 
 </body>
 </html>
+

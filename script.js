@@ -4,42 +4,46 @@ const API_URL = `https://fsa-puppy-bowl.herokuapp.com/api/${COHORT}/players`;
 
 //run when DOM is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("DOM fully loaded");
+    console.log("DOM fully loaded...");
 
-//fetch + display list of pup
-    getPuppies();
+    //fetch + display puppies
+    fetchAllPuppies();
 
-//set up event listener for adding new pup
+    //set up event listener for adding new pup
     const form = document.getElementById("puppy-form");
     if (form) {
-        form.addEventListener("submit", addPuppy);
+        form.addEventListener("submit", addNewPuppy);
     } else {
-        console.warn("Form with ID 'puppy-form' not found. Skipping form event listener.");
+        console.warn("Form with ID 'puppy-form' not found. Skipping event listener.");
     }
 });
 
 //fetch all pups from API
-async function getPuppies() {
+async function fetchAllPuppies() {
+    console.log("Trying to fetch puppies...");
     try {
         const response = await fetch(API_URL);
-        if (!response.ok) throw new Error("Failed to fetch puppies");
+        if (!response.ok) { 
+            console.log("Error fetching puppies!"); 
+            return;
+        }
 
         const data = await response.json();
         console.log("Fetched Puppies Data:", data);
 
-//make sure we have valid array of pups before rendering
+        //make sure I have valid array of pups before rendering
         if (data.success && data.data && Array.isArray(data.data.players)) {
-            renderPuppies(data.data.players);
+            renderAllPuppies(data.data.players);
         } else {
-            console.error("Error: API did not return an array", data);
+            console.warn("API did not return an array of puppies!", data);
         }
     } catch (error) {
         console.error("Error fetching puppies:", error);
     }
 }
 
-//render fetched pups in the UI
-function renderPuppies(puppyList) {
+//render all pupss in UI
+function renderAllPuppies(puppyList) {
     const puppyListContainer = document.getElementById("puppy-list");
 
     if (!puppyListContainer) {
@@ -47,19 +51,19 @@ function renderPuppies(puppyList) {
         return;
     }
 
-//clear existing pups before re-rendering
+    //clear previous pups before re-rendering
     puppyListContainer.innerHTML = "";
 
     puppyList.forEach((puppy) => {
         const puppyCard = document.createElement("li");
         puppyCard.classList.add("puppy-card");
 
-//ensure each pup card has name, image, breed and buttons for removal + details
+        //make sure each card has name, image, breed, and buttons
         puppyCard.innerHTML = `
             <h3>${puppy.name}</h3>
             <img src="${puppy.imageUrl}" alt="${puppy.breed}" onerror="this.src='https://via.placeholder.com/150'" />
             <p><strong>Breed:</strong> ${puppy.breed || "Unknown"}</p>
-            <button onclick="viewPuppyDetails(${puppy.id})">See Details</button>
+            <button onclick="fetchSinglePuppy(${puppy.id})">See Details</button>
             <button class="remove-button" onclick="removePuppy(${puppy.id})">Remove</button>
         `;
 
@@ -67,32 +71,36 @@ function renderPuppies(puppyList) {
     });
 }
 
-//fetch individual pup's details when you click on "details" button of individual card
-async function viewPuppyDetails(puppyId) {
+//fetch single pup's details when clicking "See Details"
+async function fetchSinglePuppy(puppyId) {
+    console.log(`Fetching details for puppy ID: ${puppyId}...`);
     try {
         const response = await fetch(`${API_URL}/${puppyId}`);
-        if (!response.ok) throw new Error("Failed to fetch puppy details");
+        if (!response.ok) { 
+            console.log("Error fetching puppy details!"); 
+            return;
+        }
 
         const puppyData = await response.json();
         console.log("Fetched Puppy Details:", puppyData);
 
-//make sure pup details are valid before rendering
+        //make sure data is valid before rendering
         if (puppyData.success && puppyData.data && puppyData.data.player) {
             renderPuppyDetails(puppyData.data.player);
         } else {
-            console.warn("Puppy details are missing:", puppyData);
+            console.warn("Puppy details are missing!", puppyData);
         }
     } catch (error) {
         console.error("Error fetching puppy details:", error);
     }
 }
 
-//add overlay for individual pup's card that we want to see in detail after clicking on "details" button
+//add overlay for pup details pop-up
 const overlay = document.createElement("div");
 overlay.id = "overlay";
 document.body.appendChild(overlay);
 
-//modify function to show detailed individual pup's card in center of page when clicked on
+//show individual detailed pup details in card
 function renderPuppyDetails(puppy) {
     const detailContainer = document.getElementById("puppy-detail-container");
 
@@ -101,7 +109,7 @@ function renderPuppyDetails(puppy) {
         return;
     }
 
-//make sure detailed individual pup's card is size proportional to other pups cards
+    //ensure details card is proportional in size
     detailContainer.innerHTML = `
         <div class="modal-content">
             <h3>${puppy.name || "No Name"}</h3>
@@ -111,27 +119,23 @@ function renderPuppyDetails(puppy) {
         </div>
     `;
 
-//changed to flex for centering
+    //show individual detailed pup cardin center
     detailContainer.style.display = "flex"; 
-//show overlay when detailed individual pup's card is being opened
     overlay.style.display = "block"; 
 }
 
-//close popped up detailed individual pup's card and remove overlay
+//close detailed individual pup card (like closing pop-up)
 function closePuppyDetails() {
     const detailContainer = document.getElementById("puppy-detail-container");
     if (detailContainer) {
         detailContainer.style.display = "none";
-//hide overlay when card closes
         overlay.style.display = "none"; 
     }
 }
 
-//add new pup when form is submitted
-async function addPuppy(event) {
-
-//no default form submission!
-    event.preventDefault();
+//add new pup 
+async function addNewPuppy(event) {
+    event.preventDefault(); //don't reload page!
 
     const name = document.getElementById("puppy-name").value.trim();
     const breed = document.getElementById("puppy-breed").value.trim();
@@ -148,6 +152,8 @@ async function addPuppy(event) {
 
     const newPuppy = { name, breed, imageUrl };
 
+    console.log("Adding new puppy:", newPuppy);
+    
     try {
         const response = await fetch(API_URL, {
             method: "POST",
@@ -155,33 +161,35 @@ async function addPuppy(event) {
             body: JSON.stringify(newPuppy),
         });
 
-        if (!response.ok) throw new Error("Failed to add puppy");
+        if (!response.ok) { 
+            console.log("Error adding puppy!"); 
+            return;
+        }
 
-        console.log("Added Puppy:", await response.json());
+        console.log("Puppy added:", await response.json());
 
-//refresh pup list after adding new one
-        getPuppies();
+        fetchAllPuppies(); //refresh list after adding
     } catch (error) {
         console.error("Error adding puppy:", error);
     }
 
-//clear form after submission
     document.getElementById("puppy-form").reset();
 }
 
-//remove pup when "remove" button is clicked
+//remove pup
 async function removePuppy(puppyId) {
+    console.log(`Removing puppy ID: ${puppyId}...`);
     try {
         const response = await fetch(`${API_URL}/${puppyId}`, { method: "DELETE" });
 
-        if (!response.ok) throw new Error("Failed to delete puppy");
+        if (!response.ok) { 
+            console.log("Error deleting puppy!"); 
+            return;
+        }
 
-        console.log("Deleted Puppy:", puppyId);
-//refresh list after deletion
-        getPuppies();
+        console.log("Puppy removed:", puppyId);
+        fetchAllPuppies(); //refresh list after removal
     } catch (error) {
         console.error("Error deleting puppy:", error);
     }
 }
-
-
